@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!-- 设置别名 -->
+	<typeAliases>
+        <typeAlias type="cn.com.clm.beans.User" alias="User" />
+        <typeAlias type="cn.com.clm.beans.Car" alias="Car" />
+        <typeAlias type="cn.com.clm.beans.Type" alias="Type" />
+        <typeAlias type="cn.com.clm.beans.Biaozhi" alias="Biaozhi" />
+        <typeAlias type="cn.com.clm.beans.CarImage" alias="CarImage" />
+        <typeAlias type="cn.com.clm.beans.UserPb" alias="UserPb" />
+        <typeAlias type="cn.com.clm.beans.UserRecode" alias="UserRecode" />
+        <typeAlias type="cn.com.clm.beans.Message" alias="Message" />
+        <typeAlias type="cn.com.clm.beans.OrderInfo" alias="OrderInfo" />
+        <typeAlias type="cn.com.clm.beans.Diqu" alias="Diqu" />
+    </typeAliases>
+
+</configuration>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.clm.daos.OrderMapper">
+	
+	<select id="getOrderInfo" resultMap="OneOrder" parameterType="String">
+        SELECT * FROM orderlist o,diqu d,car_img ci,biaozhi b,car c,TYPE t WHERE o.d_id=d.d_id AND o.b_code=ci.b_code AND c.b_code=o.b_code AND c.b_id=b.b_id AND c.t_id=t.t_id AND o.o_code=#{o_code}
+    </select>
+    
+    <resultMap type="OrderInfo" id="OneOrder">
+        <id property="o_id" column="c_id" />
+        <result property="o_code" column="o_code" /> 
+        <result property="u_card" column="u_card" /> 
+        <result property="u_jscard" column="u_jscard" /> 
+        <result property="b_code" column="b_code" /> 
+        <result property="b_price" column="b_price" /> 
+        <result property="start_date" column="start_date" /> 
+        <result property="end_date" column="end_date" /> 
+        <result property="days" column="days" /> 
+        <result property="allMoney" column="allMoney" /> 
+        <result property="o_bx" column="o_bx" /> 
+        <result property="o_state" column="o_state" /> 
+        <!--租车地点  -->       
+        <association property="diqu" javaType="Diqu">
+         	<id property="d_id" column="d_id" />
+	        <result property="d_pname" column="d_pname" />        
+        </association> 
+        <!--类型  -->       
+        <association property="type" javaType="Type">
+         	<id property="t_id" column="t_id" />
+	        <result property="t_img" column="t_img" /> 
+        </association> 
+        <!-- 品牌 -->
+        <association property="biaozhi" javaType="Biaozhi">
+         	<id property="b_id" column="b_id" />
+        	<result property="b_img" column="b_img" />    
+        </association>
+        <!-- 汽车图片 -->
+        <association property="carImage" javaType="CarImage">
+         	<id property="i_id" column="i_id" />
+	        <result property="img1" column="img1" />        
+	        <result property="img2" column="img2" />        
+	        <result property="img3" column="img3" />        
+	        <result property="img4" column="img4" />        
+        </association>
+        
+        
+    </resultMap>
+
+</mapper>

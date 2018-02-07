@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.clm.daos.UserMapper">
+
+    <!-- 登录：此处select标签的id值对应Mapper类中方法名 -->
+    <select id="getUserByName" parameterType="String" resultMap="userMap">
+            <!-- 此处写sql语句,#{Mapper类传入的参数} -->
+            SELECT * FROM USER WHERE u_name= #{u_name} AND u_state='已审核'
+    </select>
+    <resultMap type="User" id="userMap">
+        <id property="id" column="u_id" />
+        <result property="u_name" column="u_name" />
+        <result property="u_psw" column="u_psw" />        
+    </resultMap>
+    
+    <select id="getUserCore" parameterType="String" resultMap="userCoreMap">
+        SELECT u.u_id,up.p_id,u.u_name,u.u_psw,u.u_sex,u.u_age,u.u_card,u.u_address,u.u_phone,u.u_img,u.u_jscard,u.u_date,up.p_pd,up.p_money FROM USER u,user_pb up WHERE u.u_card=up.u_card AND u.u_card=#{u_card}
+    </select>
+    <resultMap type="User" id="userCoreMap">
+    	<id property="id" column="u_id" />
+        <result property="u_name" column="u_name" />
+        <result property="u_psw" column="u_psw" />  	
+        <result property="u_sex" column="u_sex" />  	
+        <result property="u_age" column="u_age" />  	
+        <result property="u_card" column="u_card" />  	
+        <result property="u_address" column="u_address" />  	
+        <result property="u_phone" column="u_phone" />  	
+        <result property="u_img" column="u_img" />  	
+        <result property="u_jscard" column="u_jscard" />  	
+        <result property="u_date" column="u_date" /> 
+        <!-- 用户积分 --> 
+        <association property="userPb" javaType="UserPb">
+         	<id property="p_id" column="p_id" />
+	        <result property="p_pd" column="p_pd" />        
+	        <result property="p_money" column="p_money" /> 
+        </association>	
+    </resultMap>
+    
+    
+    
+    
+   
+
+</mapper>

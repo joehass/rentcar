@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.clm.daos.CarMapper">
+
+    <!-- 查询最近添加的4辆车 -->
+    <select id="getNewCar" resultMap="CarMap" >
+        SELECT c.c_id,b.b_id,t.t_id,ci.i_id,c.b_code,b.b_name,b.b_img,t.t_type,t.t_img,c.b_buydate,c.b_price,c.b_kuanshi,ci.img1 FROM car c,car_img ci,TYPE t,biaozhi b WHERE c.b_code=ci.b_code AND c.b_id=b.b_id AND c.t_id=t.t_id ORDER BY c.b_buydate DESC LIMIT 0,4
+    </select>
+    
+    <!-- 查询最近添加的4辆车 -->
+    <select id="getLowCar" resultMap="CarMap">
+        SELECT c.c_id,b.b_id,t.t_id,ci.i_id,c.b_code,b.b_name,b.b_img,t.t_type,t.t_img,c.b_buydate,c.b_price,c.b_kuanshi,ci.img1 FROM car c,car_img ci,TYPE t,biaozhi b WHERE c.b_code=ci.b_code AND c.b_id=b.b_id AND c.t_id=t.t_id ORDER BY c.b_price LIMIT 0,5
+    </select>
+    
+    <!-- 查询所有的汽车 -->
+    <select id="getCars" resultMap="CarMap">
+        SELECT c.c_id,b.b_id,t.t_id,ci.i_id,c.b_code,b.b_name,b.b_img,t.t_type,t.t_img,c.b_buydate,c.b_price,c.b_kuanshi,ci.img1,ci.img2,ci.img3,ci.img4 FROM car c,car_img ci,TYPE t,biaozhi b WHERE c.b_code=ci.b_code AND c.b_id=b.b_id AND c.t_id=t.t_id ORDER BY c.b_price
+    </select>
+    
+    <resultMap type="Car" id="CarMap">
+        <id property="c_id" column="c_id" />
+        <result property="b_code" column="b_code" /> 
+        <result property="b_buydate" column="b_buydate" />        
+        <result property="b_price" column="b_price" />        
+        <result property="b_kuanshi" column="b_kuanshi" /> 
+        <!--类型  -->       
+        <association property="type" javaType="Type">
+         	<id property="t_id" column="t_id" />
+	        <result property="t_type" column="t_type" />        
+	        <result property="t_img" column="t_img" /> 
+        </association> 
+        <!-- 品牌 -->
+        <association property="biaozhi" javaType="Biaozhi">
+         	<id property="b_id" column="b_id" />
+        	<result property="b_name" column="b_name" />        
+        	<result property="b_img" column="b_img" />    
+        </association>
+        <!-- 汽车图片 -->
+        <association property="carImage" javaType="CarImage">
+         	<id property="i_id" column="i_id" />
+	        <result property="img1" column="img1" />        
+	        <result property="img2" column="img2" />        
+	        <result property="img3" column="img3" />        
+	        <result property="img4" column="img4" />        
+        </association>  
+    </resultMap>
+    
+    <!-- 查看一辆汽车的详情 -->
+    <select id="getOneCar" resultMap="OneCar" parameterType="String">
+        SELECT c.c_id,b.b_id,t.t_id,ci.i_id,c.b_code,c.b_kuanshi,c.b_buydate,c.b_zuowei,c.b_chemen,c.b_ranliao,c.b_biansu,c.b_zuoyi,c.b_isdao,c.b_iswindow,c.b_introduce,c.b_price,c.state,b.b_name,b.b_img,t.t_type,t.t_img,ci.img1,ci.img2,ci.img3,ci.img4 FROM car c,car_img ci,TYPE t,biaozhi b WHERE c.b_code=ci.b_code AND c.b_id=b.b_id AND c.t_id=t.t_id AND c.b_code=#{b_code}
+    </select>
+    
+    <!-- 汽车分页查询 -->
+    <select id="getPage" resultMap="OneCar" parameterType="int">
+        SELECT c.c_id,b.b_id,t.t_id,ci.i_id,c.b_code,c.b_kuanshi,c.b_buydate,c.b_zuowei,c.b_chemen,c.b_ranliao,c.b_biansu,c.b_zuoyi,c.b_isdao,c.b_iswindow,c.b_introduce,c.b_price,b.b_name,b.b_img,t.t_type,t.t_img,ci.img1,ci.img2,ci.img3,ci.img4 FROM car c,car_img ci,TYPE t,biaozhi b WHERE  c.b_code=ci.b_code AND c.b_id=b.b_id AND c.t_id=t.t_id limit #{0},#{1}
+    </select>
+    
+    <resultMap type="Car" id="OneCar">
+        <id property="c_id" column="c_id" />
+        <result property="b_code" column="b_code" /> 
+        <result property="b_kuanshi" column="b_kuanshi" /> 
+        <result property="b_buydate" column="b_buydate" /> 
+        <result property="b_zuowei" column="b_zuowei" /> 
+        <result property="b_chemen" column="b_chemen" /> 
+        <result property="b_ranliao" column="b_ranliao" /> 
+        <result property="b_biansu" column="b_biansu" /> 
+        <result property="b_zuoyi" column="b_zuoyi" /> 
+        <result property="b_isdao" column="b_isdao" /> 
+        <result property="b_iswindow" column="b_iswindow" /> 
+        <result property="b_introduce" column="b_introduce" /> 
+        <result property="b_price" column="b_price" /> 
+        <result property="state" column="state" /> 
+        <!--类型  -->       
+        <association property="type" javaType="Type">
+         	<id property="t_id" column="t_id" />
+	        <result property="t_type" column="t_type" />        
+	        <result property="t_img" column="t_img" /> 
+        </association> 
+        <!-- 品牌 -->
+        <association property="biaozhi" javaType="Biaozhi">
+         	<id property="b_id" column="b_id" />
+        	<result property="b_name" column="b_name" />        
+        	<result property="b_img" column="b_img" />    
+        </association>
+        <!-- 汽车图片 -->
+        <association property="carImage" javaType="CarImage">
+         	<id property="i_id" column="i_id" />
+	        <result property="img1" column="img1" />        
+	        <result property="img2" column="img2" />        
+	        <result property="img3" column="img3" />        
+	        <result property="img4" column="img4" />        
+        </association>  
+    </resultMap>
+    
+    
+    
+    <!-- 条件分页查询->总条数 -->
+    <select id="getTotalByTj" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT COUNT(*) AS num FROM car c,TYPE t,biaozhi b  WHERE  c.b_id=b.b_id AND c.t_id=t.t_id 
+	        <if test="b_code!='null'"> AND c.b_code like #{b_code}</if>
+	        <if test="t_id!='null'"> AND c.t_id like #{t_id}</if>
+	        <if test="b_id!='null'"> AND c.b_id like #{b_id}</if>
+	        <if test="kuanshi!='null'"> AND c.b_kuanshi like #{kuanshi}</if>
+	        <if test="ranliao!='null'"> AND c.b_ranliao like #{ranliao}</if>
+	        <if test="biansu!='null'"> AND c.b_biansu  like #{biansu}</if>
+	        <if test="zuoyi!='null'"> AND c.b_zuoyi like #{zuoyi}</if>
+	        <if test="isdao!='null'"> AND c.b_isdao like #{isdao}</if>
+	        <if test="iswindow!='null'"> AND c.b_iswindow like #{iswindow}</if>
+	        <if test="b_date!='null'"> AND c.b_buydate like #{b_date}</if>
+	        <if test="zuowei!='null'"> AND c.b_zuowei like #{zuowei}</if>
+	        <if test="chemen!='null'"> AND c.b_chemen like #{chemen}</if>
+	        <if test="price1!='null' and price2!='null'"> AND c.b_price BETWEEN #{price1} AND #{price2}</if>
+    </select>
+    
+     
+    <!-- 条件分页查询->分页 -->
+    <select id="getPageByTj" resultMap="OneCar" parameterType="java.util.Map">
+        SELECT c.c_id,b.b_id,t.t_id,ci.i_id,c.b_code,c.b_kuanshi,c.b_buydate,c.b_zuowei,c.b_chemen,c.b_ranliao,c.b_biansu,c.b_zuoyi,c.b_isdao,c.b_iswindow,c.b_introduce,c.b_price,b.b_name,b.b_img,t.t_type,t.t_img,ci.img1,ci.img2,ci.img3,ci.img4 FROM car c,car_img ci,TYPE t,biaozhi b WHERE  c.b_code=ci.b_code AND c.b_id=b.b_id AND c.t_id=t.t_id
+        <if test="b_code!='null'"> AND c.b_code like #{b_code}</if>
+        <if test="t_id!='null'"> AND c.t_id like #{t_id}</if>
+       	<if test="b_id!='null'"> AND c.b_id like #{b_id}</if>
+        <if test="kuanshi!='null'"> AND c.b_kuanshi like #{kuanshi}</if>
+        <if test="ranliao!='null'"> AND c.b_ranliao like #{ranliao}</if>
+        <if test="biansu!='null'"> AND c.b_biansu  like #{biansu}</if>
+        <if test="zuoyi!='null'"> AND c.b_zuoyi like #{zuoyi}</if>
+        <if test="isdao!='null'"> AND c.b_isdao like #{isdao}</if>
+        <if test="iswindow!='null'"> AND c.b_iswindow like #{iswindow}</if>
+        <if test="b_date!='null'"> AND c.b_buydate like #{b_date}</if>
+        <if test="zuowei!='null'"> AND c.b_zuowei like #{zuowei}</if>
+        <if test="chemen!='null'"> AND c.b_chemen like #{chemen}</if>
+        <if test="price1!='null' and price2!='null'"> AND c.b_price BETWEEN #{price1} AND #{price2}</if>
+        limit #{first},#{pageSize}
+    </select>
+
+</mapper>
